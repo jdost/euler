@@ -1,3 +1,4 @@
+import sys
 PREFIX = "Grid"
 
 
@@ -7,6 +8,12 @@ class CollisionError(BaseException):
 
 class NoPossibilityError(BaseException):
     pass
+
+
+class Options:
+    debug = False
+    euler = False
+    filename = "sudoku.txt"
 
 
 class NUMSET:
@@ -348,15 +355,26 @@ def load_file(filename):
     while line:
         line = f.readline()
         if line.startswith(PREFIX):
-            print line
             board = load_board(f)
             board = solve(board)
             if board.solved == 81:
                 solved_cnt += 1
                 euler += board.get_euler()
 
+            if Options.debug:
+                print line
+                print board
+            else:
+                sys.stdout.write('%s' % '.' if board.solved == 81 else 'E')
+                sys.stdout.flush()
+
+    if not Options.debug:
+        sys.stdout.write('\n')
+        sys.stdout.flush()
+
     print "solved " + str(solved_cnt) + " puzzles"
-    print "euler answer: " + str(euler)
+    if Options.euler:
+        print "euler answer: " + str(euler)
 
 
 def load_board(fp):
@@ -450,6 +468,13 @@ def simulate_guess(board):
     return board_
 
 if __name__ == "__main__":
-    import sys
-    filename = sys.argv[1] if len(sys.argv) > 1 else "sudoku.txt"
-    load_file(filename)
+    if len(sys.argv) > 1:
+        for arg in sys.argv[1:]:
+            if arg.startswith('-'):
+                if arg in ['-d', '--debug']:
+                    Options.debug = True
+                elif arg in ['-e', '--euler']:
+                    Options.euler = True
+            else:
+                Options.filename = arg
+    load_file(Options.filename)
