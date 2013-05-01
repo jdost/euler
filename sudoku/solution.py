@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
 import sys
 PREFIX = "Grid"
 
@@ -320,18 +322,15 @@ class Board:
         Prints a representation of the Board, useful for debugging purposes.
         '''
         output = ""
-        index = 0
         for i in range(9):
-            if i > 0 and i % 3 == 0:
-                output += "------+-------+------\n"
-            output += ""
-            for j in range(9):
-                if j > 0 and j % 3 == 0:
-                    output += "| "
-                output += str(self.nodes[index]) + " "
-                index += 1
+            output += " {}│{}│{}┃{}│{}│{}┃{}│{}│{} \n".format(
+                    *self.nodes[(i * 9):(i * 9 + 9)])
+            if i < 8 and i % 3 == 2:
+                output += " ━┿━┿━╋━┿━┿━╋━┿━┿━ \n"
+            elif i < 8:
+                output += " ─┼─┼─╂─┼─┼─╂─┼─┼─ \n"
 
-            output += "\n"
+        output += "\n"
 
         return output
 
