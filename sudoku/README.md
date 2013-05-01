@@ -31,3 +31,7 @@ is the example above).
 By solving all fifty puzzles find the sum of the 3-digit numbers found in the top 
 left corner of each solution grid; for example, 483 is the 3-digit number found in 
 the top left corner of the solution grid above.
+
+## Status
+Status: Solved
+to run: `python solution.py`
