@@ -1,4 +1,4 @@
-# euler problem #96
+# [Problem #96](http://projecteuler.net/problem=96)
 Su Doku (Japanese meaning number place) is the name given to a popular puzzle 
 concept. Its origin is unclear, but credit must be attributed to Leonhard Euler who 
 invented a similar, and much more difficult, puzzle idea called Latin Squares. The 
@@ -33,5 +33,5 @@ left corner of each solution grid; for example, 483 is the 3-digit number found 
 the top left corner of the solution grid above.
 
 ## Status
-Status: Solved
-to run: `python solution.py -e`
+* Status: Solved
+* to run: `python solution.py -e`
