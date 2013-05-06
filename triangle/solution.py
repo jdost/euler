@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 import sys
 SEPERATOR = ' '
 
@@ -6,7 +6,7 @@ SEPERATOR = ' '
 class Options:
     debug = False
     euler = False
-    filename = "triangle.txt"
+    filename = "triangle100.txt"
 
 
 class Node:
@@ -16,8 +16,22 @@ class Node:
     '''
     def __init__(self, value):
         self.value = value
+        self.weight = 0
+        self.path = None
         self.left = None
         self.right = None
+
+    def calc_weight(self):
+        ''' (public) calc_weight:
+        '''
+        self.weight = self.value
+        if self.left and self.right:
+            if self.left.weight > self.right.weight:
+                self.path = self.left
+                self.weight += self.left.weight
+            else:
+                self.path = self.right
+                self.weight += self.right.weight
 
     def __str__(self):
         ''' (magic) __str__:
@@ -57,36 +71,33 @@ class Triangle:
 
         self.levels.append(level)
 
-    def get_values(self, level, position):
+    def get_values(self):
         ''' (public) get_values:
         Goes down the left most and right most legs based on the level/position
         provided and gives the total "potential" for each leg of the sub
         triangle this represents.
         '''
-        pos = position
-        left = 0
-        right = 0
-        for level in self.levels[(level + 1):]:
-            pos += 1
-            left += level[position].value
-            right += level[pos].value
-
-        return left, right
+        for level in reversed(self.levels):
+            for node in level:
+                node.calc_weight()
 
     def find_path(self):
         ''' (public) find_path:
         Goes down the levels of the triangle, looking to find the path with
         the maximum value.
         '''
-        path = []
-        position = 0
-        for i in range(len(self.levels)):
-            path.append(position)
-            left, right = self.get_values(i, position)
-            position += 1 if right > left else 0
-            if Options.debug:
-                print "{}{}{}".format(left, " \\" if right > left else "/ ",
-                        right)
+        self.get_values()
+        node = self.levels[0][0]
+        path = [node]
+        while node.left:
+            if node.left.weight > node.right.weight:
+                node = node.left
+            elif node.left.weight < node.right.weight:
+                node = node.right
+            else:
+                node = node.left if node.left.value > node.right.value \
+                        else node.right
+            path.append(node)
 
         return path
 
@@ -96,8 +107,8 @@ class Triangle:
         on the euler page.
         '''
         path_sum = 0
-        for i in range(len(path)):
-            path_sum += self.levels[i][path[i]].value
+        for node in path:
+            path_sum += node.value
 
         return path_sum
 
@@ -128,13 +139,12 @@ def load_triangle(filename):
     for line in f:
         triangle.add_level(line.split(SEPERATOR))
     if Options.debug:
-        print str(triangle)
-        print "Loaded {} levels".format(len(triangle.levels))
+        print("Loaded {} levels".format(len(triangle.levels)))
 
     path = triangle.find_path()
 
     if Options.euler:
-        print "euler answer: {}".format(triangle.find_euler(path))
+        print("euler answer: {}".format(triangle.find_euler(path)))
 
 
 if __name__ == "__main__":
