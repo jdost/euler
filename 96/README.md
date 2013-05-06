@@ -34,4 +34,4 @@ the top left corner of the solution grid above.
 
 ## Status
 Status: Solved
-to run: `python solution.py`
+to run: `python solution.py -e`

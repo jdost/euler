@@ -6,7 +6,7 @@ SEPERATOR = ' '
 class Options:
     debug = False
     euler = False
-    filename = "triangle100.txt"
+    filename = "67.txt"
 
 
 class Node:
