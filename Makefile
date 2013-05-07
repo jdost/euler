@@ -12,3 +12,6 @@ p1:
 
 p59:
 	python 59/solution.py -e -l 3 59/cipher1.txt
+
+p52:
+	python 52/solution.py -e -m 2,3,4,5,6
