@@ -54,8 +54,7 @@ def calc():
         total += num
 
     if Options.euler:
-        print(total)
-
+        print("euler answer: {}".format(total))
 
 if __name__ == "__main__":
     nxt = None
