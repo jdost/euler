@@ -8,4 +8,7 @@ p18:
 	python triangle/solution.py -e triangle/18.txt
 
 p1:
-	python 1/solution.py -e
+	python 1/solution.py -e -l 1000 -m 3 -m 5
+
+p59:
+	python 59/solution.py -e -l 3 59/cipher1.txt
