@@ -38,6 +38,25 @@ def str_to_ints(int_string):
     return ints
 
 
+def calc():
+    ''' calc:
+    Performs the calculation based on the Options object, will output the
+    result to stdout
+    '''
+    for multiple in Options.multiples:
+        count = find_multiples(multiple, numset)
+        if Options.debug:
+            print("{} multiples for {}".format(count, multiple))
+
+    print("Found {} unique multiples".format(len(numset)))
+    total = 0
+    for num in numset:
+        total += num
+
+    if Options.euler:
+        print(total)
+
+
 if __name__ == "__main__":
     nxt = None
     n_limits = False
@@ -63,16 +82,4 @@ if __name__ == "__main__":
                 nxt(arg)
                 nxt = None
 
-
-for multiple in Options.multiples:
-    count = find_multiples(multiple, numset)
-    if Options.debug:
-        print("{} multiples for {}".format(count, multiple))
-
-print("Found {} unique multiples".format(len(numset)))
-total = 0
-for num in numset:
-    total += num
-
-if Options.euler:
-    print(total)
+    calc()
