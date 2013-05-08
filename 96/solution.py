@@ -15,6 +15,7 @@ class NoPossibilityError(BaseException):
 class Options:
     debug = False
     euler = False
+    fancy = False
     filename = "sudoku.txt"
 
 
@@ -199,6 +200,16 @@ class Board:
     approach to gather the various operators on the board into a common
     namespace.
     '''
+    normal_lines = [
+        " {} {} {} | {} {} {} | {} {} {} \n",
+        " ------+-------+------ \n",
+        ""
+            ]
+    fancy_lines = [
+        " {}│{}│{}┃{}│{}│{}┃{}│{}│{} \n",
+        " ━┿━┿━╋━┿━┿━╋━┿━┿━ \n",
+        " ─┼─┼─╂─┼─┼─╂─┼─┼─ \n"
+            ]
     def __init__(self):
         self.squares = []
         self.columns = []
@@ -321,14 +332,14 @@ class Board:
         ''' (magic) __str__:
         Prints a representation of the Board, useful for debugging purposes.
         '''
+        lines = self.fancy_lines if Options.fancy else self.normal_lines
         output = ""
         for i in range(9):
-            output += " {}│{}│{}┃{}│{}│{}┃{}│{}│{} \n".format(
-                    *self.nodes[(i * 9):(i * 9 + 9)])
+            output += lines[0].format(*self.nodes[(i * 9):(i * 9 + 9)])
             if i < 8 and i % 3 == 2:
-                output += " ━┿━┿━╋━┿━┿━╋━┿━┿━ \n"
+                output += lines[1]
             elif i < 8:
-                output += " ─┼─┼─╂─┼─┼─╂─┼─┼─ \n"
+                output += lines[2]
 
         output += "\n"
 
@@ -474,6 +485,8 @@ if __name__ == "__main__":
                     Options.debug = True
                 elif arg in ['-e', '--euler']:
                     Options.euler = True
+                elif arg in ['-f', '--fancy']:
+                    Options.fancy = True
             else:
                 Options.filename = arg
     load_file(Options.filename)
